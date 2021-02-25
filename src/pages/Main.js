@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Image,
@@ -9,12 +9,29 @@ import {
   FlatList,
 } from "react-native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import profile from "../../assets/profile.png";
-import mortgage from "../../assets/svg/mortgage.svg"
-import income from "../../assets/svg/income.svg"
-import fastfood from "../../assets/svg/fastfood.svg"
+import mortgage from "../../assets/svg/mortgage.svg";
+import income from "../../assets/svg/income.svg";
+import fastfood from "../../assets/svg/fastfood.svg";
 
 export default function Main() {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        let jsonValue = await AsyncStorage.getItem("@user");
+        jsonValue = jsonValue != null ? JSON.parse(jsonValue) : null;
+        setUser(jsonValue);
+      } catch (error) {
+        alert("Ocorreu um erro ao buscar os items");
+      }
+    }
+    getData();
+  }, []);
+
   const data = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -38,6 +55,22 @@ export default function Main() {
       title: "Comida",
       date: "20/02/2020",
       amount: "- R$ 130,00",
+      type: "expenditure",
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d73",
+      icon: fastfood,
+      title: "Comida",
+      date: "20/02/2020",
+      amount: "- R$ 80,00",
+      type: "expenditure",
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d74",
+      icon: fastfood,
+      title: "Comida",
+      date: "20/02/2020",
+      amount: "- R$ 35,00",
       type: "expenditure",
     },
   ];
@@ -74,7 +107,7 @@ export default function Main() {
   return (
     <View style={styles.container}>
       <Image style={styles.avatar} source={profile} />
-      <Text style={styles.title}>Robson Formigão</Text>
+      <Text style={styles.title}>{user.name}</Text>
       <View style={styles.containerAmount}>
         <Text style={styles.label}>Saldo total</Text>
         <View style={styles.controller}>
@@ -197,12 +230,12 @@ const styles = StyleSheet.create({
   incomeItem: {
     color: "#4FA840",
     fontSize: 12,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   expenditureItem: {
     color: "#DE5753",
     fontSize: 12,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   iconContainer: {
     width: 50,
@@ -211,7 +244,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     backgroundColor: "#D8C6F8",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   iconItem: {
     width: 30,
@@ -221,5 +254,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  }
+  },
 });
