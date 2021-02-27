@@ -7,12 +7,11 @@ export default function CreateAccount({ navigation }) {
 
   async function onSubmitEditing() {
     try {
-      const jsonValue = JSON.stringify({ name: name });
-      await AsyncStorage.setItem("@user", jsonValue);
-
+      const user = JSON.stringify({ name: name });
+      await AsyncStorage.setItem("@user", user);
       navigation.navigate("Main");
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -21,15 +20,15 @@ export default function CreateAccount({ navigation }) {
       <Text style={styles.title}>Olá, vamos começar!</Text>
       <TextInput
         style={styles.inputName}
-        onChangeText={(text) => setName(text)}
-        onSubmitEditing={onSubmitEditing}
         value={name}
-        clearTextOnFocus
         multiline
+        blurOnSubmit
+        clearTextOnFocus
         textAlignVertical="top"
         placeholder="Qual o seu nome?"
         placeholderTextColor="#D8C6F8"
-        blurOnSubmit
+        onChangeText={(text) => setName(text)}
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );

@@ -9,27 +9,17 @@ import {
   FlatList,
 } from "react-native";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import profile from "../../assets/profile.png";
 import mortgage from "../../assets/svg/mortgage.svg";
 import income from "../../assets/svg/income.svg";
 import fastfood from "../../assets/svg/fastfood.svg";
 
-export default function Main() {
+export default function Main({ navigation: { state } }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    async function getData() {
-      try {
-        let jsonValue = await AsyncStorage.getItem("@user");
-        jsonValue = jsonValue != null ? JSON.parse(jsonValue) : null;
-        setUser(jsonValue);
-      } catch (error) {
-        alert("Ocorreu um erro ao buscar os items");
-      }
-    }
-    getData();
+    const { userStorage } = state.params;
+    setUser(userStorage);
   }, []);
 
   const data = [
