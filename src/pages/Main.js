@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
 
-import ListTransactions from "../components/ListTransactions";
-
 import profile from "../../assets/profile.png";
+import ListTransactions from "../components/ListTransactions";
+import AddTransactionModal from "../components/AddTransactionModal";
 
 export default function Main({ navigation: { state } }) {
   const [user, setUser] = useState({});
   const [transactions, setTransactions] = useState([]);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const { userStorage } = state.params;
     setUser(userStorage);
   }, []);
+
+  const handleVisible = () => {
+    setVisible(!visible);
+  };
 
   return (
     <View style={styles.container}>
@@ -22,12 +27,17 @@ export default function Main({ navigation: { state } }) {
         <Text style={styles.label}>Saldo total</Text>
         <View style={styles.controller}>
           <Text style={styles.amount}>R$ 4.500,00</Text>
-          <TouchableOpacity style={styles.buttonContainer} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            activeOpacity={0.8}
+            onPress={handleVisible}
+          >
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
         </View>
       </View>
       <ListTransactions transactions={transactions} />
+      <AddTransactionModal visible={visible} handleVisible={handleVisible} />
     </View>
   );
 }
