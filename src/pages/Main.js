@@ -5,7 +5,7 @@ import profile from "../../assets/profile.png";
 import ListTransactions from "../components/ListTransactions";
 import AddTransactionModal from "../components/AddTransactionModal";
 
-export default function Main({ navigation: { state } }) {
+export default function Main({ navigation, navigation: { state } }) {
   const [user, setUser] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [visible, setVisible] = useState(true);
@@ -18,6 +18,10 @@ export default function Main({ navigation: { state } }) {
   const handleVisible = () => {
     setVisible(!visible);
   };
+
+  const addTransaction = () => {
+    navigation.navigate("Transaction");
+  }
 
   return (
     <View style={styles.container}>
@@ -37,7 +41,7 @@ export default function Main({ navigation: { state } }) {
         </View>
       </View>
       <ListTransactions transactions={transactions} />
-      <AddTransactionModal visible={visible} handleVisible={handleVisible} />
+      <AddTransactionModal visible={visible} handleVisible={handleVisible} addTransaction={addTransaction} />
     </View>
   );
 }

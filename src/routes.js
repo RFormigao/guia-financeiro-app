@@ -1,6 +1,7 @@
 import Auth from "./pages/Auth";
 import CreateAccount from "./pages/CreateAccount";
 import Main from "./pages/Main";
+import Transaction from "./pages/Transaction";
 
 export const routes = {
   Auth: {
@@ -17,6 +18,12 @@ export const routes = {
   },
   Main: {
     screen: Main,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Transaction: {
+    screen: Transaction,
     navigationOptions: {
       header: null,
     },
