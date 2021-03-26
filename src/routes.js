@@ -31,5 +31,5 @@ export const routes = {
 };
 
 export const config = {
-  initialRouteName: "Auth",
+  initialRouteName: "Transaction",
 };
